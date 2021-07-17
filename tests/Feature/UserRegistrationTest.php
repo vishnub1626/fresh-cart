@@ -90,4 +90,20 @@ class UserRegistrationTest extends TestCase
 
         $this->assertTrue(Hash::check('somesecret', $user->password));
     }
+
+    /** @test */
+    public function email_must_be_unique_in_users_table()
+    {
+        User::factory()->create([
+            'email' => 'john@example.com',
+            'password' => 'somesecret',
+        ]);
+        
+        $this->json('POST', '/api/users', [
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'somesecret',
+        ])->assertStatus(422)
+        ->assertJsonValidationErrors(['email']);
+    }
 }

@@ -48,4 +48,23 @@ class OrderController extends Controller
 
         return new OrderResource($order);
     }
+
+    public function update(Order $order, Request $request)
+    {
+        if (auth()->user()->cannot('update', $order)) {
+            abort(403, 'You do not have permissions to update this order.');
+        }
+
+        if ($location = $request->get('location')) {
+            $order->order_location = $location;
+        }
+
+        $order->status = $request->status;
+        $order->save();
+
+
+        $order->load('products', 'address');
+
+        return new OrderResource($order);
+    }
 }

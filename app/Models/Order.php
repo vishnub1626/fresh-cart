@@ -11,6 +11,10 @@ class Order extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'order_location' => 'array'
+    ];
+
     public function products()
     {
         return $this->hasManyThrough(

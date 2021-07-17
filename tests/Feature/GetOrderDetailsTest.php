@@ -4,9 +4,10 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Cart;
-use App\Models\Order;
 use App\Models\User;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\OrderProduct;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -54,6 +55,7 @@ class GetOrderDetailsTest extends TestCase
                     'status' => 'pending',
                     'type' => 'pickup',
                     'total' => '30.00',
+                    'location' => null,
                     'address' => [
                         'id' => 1,
                         'address_one' => 'Address One',
@@ -119,5 +121,43 @@ class GetOrderDetailsTest extends TestCase
 
         $this->json('GET', 'api/orders/1')
             ->assertStatus(403);
+    }
+
+    /** @test */
+    public function order_details_gives_the_location_also_for_in_transit_orders()
+    {
+        $customer = User::factory()->create([
+            'type' => 'customer'
+        ]);
+
+        $order = Order::factory()
+            ->has(OrderProduct::factory()->count(3))
+            ->create([
+                'status' => 'pending',
+                'user_id' => $customer->id
+            ]);
+
+        $driver = User::factory()->create([
+            'type' => 'driver'
+        ]);
+
+        Sanctum::actingAs($driver);
+
+        $this->json('PUT', 'api/orders/' . $order->id, [
+            'status' => 'in_transit',
+            'location' => [
+                'latitude' => 71.12,
+                'longitude' => 73.34,
+            ]
+        ])->assertStatus(200);
+
+        Sanctum::actingAs($customer);
+        $response = $this->json('GET', 'api/orders/1')
+            ->assertStatus(200);
+
+        $this->assertEquals([
+            'latitude' => 71.12,
+            'longitude' => 73.34,
+        ], $response->json()['data']['location']);
     }
 }

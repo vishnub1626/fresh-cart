@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
             $table->enum('status', ['pending', 'in_transit', 'delivered', 'cancelled']);
             $table->foreignIdFor(Address::class);
             $table->unsignedInteger('total')->default(0);
+            $table->text('order_location')->default(null)->nullable();
             $table->timestamps();
         });
     }

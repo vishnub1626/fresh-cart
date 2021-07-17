@@ -53,6 +53,7 @@ class PlaceOrderTest extends TestCase
                     'status' => 'pending',
                     'type' => 'pickup',
                     'total' => '30.00',
+                    'location' => null,
                     'address' => [
                         'id' => 1,
                         'address_one' => 'Address One',
@@ -116,6 +117,7 @@ class PlaceOrderTest extends TestCase
                     'status' => 'pending',
                     'type' => 'pickup',
                     'total' => '10.00',
+                    'location' => null,
                     'address' => [
                         'id' => $address->id,
                         'address_one' => $address->address_one,
@@ -177,6 +179,7 @@ class PlaceOrderTest extends TestCase
                     'status' => 'pending',
                     'type' => 'delivery',
                     'total' => '30.00',
+                    'location' => null,
                     'address' => [
                         'id' => 1,
                         'address_one' => 'Address One',
@@ -240,6 +243,7 @@ class PlaceOrderTest extends TestCase
                     'status' => 'pending',
                     'type' => 'delivery',
                     'total' => '10.00',
+                    'location' => null,
                     'address' => [
                         'id' => $address->id,
                         'address_one' => $address->address_one,

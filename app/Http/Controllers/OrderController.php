@@ -10,6 +10,17 @@ use App\Http\Resources\OrderListResource;
 
 class OrderController extends Controller
 {
+    public function find(Order $order)
+    {
+        if (auth()->user()->cannot('view', $order)) {
+            abort(403, 'You do not have permissions to view this order.');
+        }
+
+        $order->load('products', 'address');
+
+        return new OrderResource($order);
+    }
+
     public function index()
     {
         $orders = Order::query()

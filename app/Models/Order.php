@@ -23,6 +23,11 @@ class Order extends Model
         );
     }
 
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
+
     public function address()
     {
         return $this->belongsTo(Address::class);

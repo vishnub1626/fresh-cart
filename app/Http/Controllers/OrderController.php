@@ -2,12 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderListResource;
 
 class OrderController extends Controller
 {
+    public function index()
+    {
+        $orders = Order::query()
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->paginate(10);
+
+        return OrderListResource::collection($orders);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

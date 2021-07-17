@@ -28,12 +28,21 @@ class Cart extends Model
         return $this->hasMany(CartProduct::class);
     }
 
+    public function destroyCart()
+    {
+        $this->cartProducts()->delete();
+        return $this->delete();
+    }
+
     public function addProduct(Product $product)
     {
         $this->cartProducts()->create([
             'product_id' => $product->id
         ]);
+    }
 
+    public function recalculateTotal()
+    {
         $this->total = $this->products->sum('price');
         $this->save();
     }

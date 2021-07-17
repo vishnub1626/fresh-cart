@@ -10,6 +10,18 @@ class CartProduct extends Model
     use HasFactory;
 
     protected $guarded = [];
+    
+    protected static function booted()
+    {
+        static::created(function ($cartProduct) {
+            $cartProduct->cart->recalculateTotal();
+        });
+    }
+
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
 
     public function product()
     {

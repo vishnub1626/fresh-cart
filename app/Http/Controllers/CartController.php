@@ -37,7 +37,7 @@ class CartController extends Controller
 
         $cart->addProduct($product);
 
-        return new CartResource($cart);
+        return new CartResource($cart->fresh()->load('products'));
     }
 
     public function destroy($productId)

@@ -36,35 +36,4 @@ class Order extends Model
     {
         return $this->belongsTo(Address::class);
     }
-
-    public static function createFromRequest($request)
-    {
-        $cart = Cart::with('products')->findOrFail($request->cart_id);
-
-        $address = Address::createForOrder([
-            'user_id' => $request->user()->id,
-            'type' => $request->type,
-            'address' => $request->get('address')
-        ]);
-
-
-        $order = static::create([
-            'user_id' => $request->user()->id,
-            'type' => $request->type,
-            'status' => 'pending',
-            'address_id' => $address->id,
-        ]);
-
-        $cart->products->each(function ($product) use ($order) {
-            OrderProduct::create([
-                'order_id' => $order->id,
-                'product_id' => $product->id
-            ]);
-        });
-
-        $order->total = $order->products->sum('price');
-        $order->save();
-
-        return $order;
-    }
 }

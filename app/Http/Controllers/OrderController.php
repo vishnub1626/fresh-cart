@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Address;
+use App\Jobs\PlaceOrder;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderResource;
+use App\Http\Requests\PlaceOrderRequest;
 use App\Http\Resources\OrderListResource;
 
 class OrderController extends Controller
@@ -31,20 +34,19 @@ class OrderController extends Controller
         return OrderListResource::collection($orders);
     }
 
-    public function store(Request $request)
+    public function store(PlaceOrderRequest $request)
     {
-        $request->validate([
-            'cart_id' => 'required', 
-            'address' => 'required', 
-            'type' => 'required|in:delivery,pickup', 
-            'address.id' => 'sometimes|required|exists:addresses,id', 
-            'address.address_one' => 'required_without:address.id',
-            'address.city' => 'required_without:address.id',
-            'address.state' => 'required_without:address.id',
-            'address.pincode' => 'required_without:address.id',
+        $address = Address::createForOrder([
+            'user_id' => $request->user()->id,
+            'type' => $request->type,
+            'address' => $request->get('address')
         ]);
 
-        $order = Order::createFromRequest($request);
+        $order = PlaceOrder::dispatchSync(
+            Cart::find($request->cart_id),
+            $request->type,
+            $address,
+        );
 
         return new OrderResource($order);
     }

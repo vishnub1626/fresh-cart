@@ -42,6 +42,9 @@ class PlaceOrder
         $order->total = $order->products->sum('price');
         $order->save();
 
+        $this->cart->destroyCart();
+
         return $order;
     }
+
 }

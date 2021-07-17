@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
+use App\Models\CartProduct;
 use App\Models\Product;
 use App\Models\OrderProduct;
 use Laravel\Sanctum\Sanctum;
@@ -400,5 +401,35 @@ class PlaceOrderTest extends TestCase
             ],
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['type']);
+    }
+
+    /** @test */
+    public function placing_an_order_deletes_the_cart_and_cart_products()
+    {
+        $user = User::factory()->create();
+        $cart = Cart::factory()->create([
+            'user_id' => $user->id
+        ]);
+
+        $product = Product::factory()->create([
+            'price' => 1000
+        ]);
+
+        $cart->addProduct($product);
+        $address = Address::factory()->create([
+            'user_id' => $user->id,
+            'type' => 'pickup'
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $this->json('POST', 'api/orders', [
+            'cart_id' => $cart->id,
+            'type' => 'pickup',
+            'address' => $address->toArray(),
+        ])->assertStatus(201);
+
+        $this->assertCount(0, Cart::all());
+        $this->assertCount(0, CartProduct::all());
     }
 }

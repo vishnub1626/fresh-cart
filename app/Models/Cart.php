@@ -39,7 +39,10 @@ class Cart extends Model
         $this->cartProducts()->create([
             'product_id' => $product->id
         ]);
+    }
 
+    public function recalculateTotal()
+    {
         $this->total = $this->products->sum('price');
         $this->save();
     }

@@ -1,10 +1,15 @@
 <template>
     <div class="container mx-auto">
-        Homepage
+        <product-list></product-list>
     </div>
 </template>
 
 <script>
-    export default {
-    }
+import ProductList from "./ProductList.vue";
+
+export default {
+    components: {
+        "product-list": ProductList,
+    },
+};
 </script>

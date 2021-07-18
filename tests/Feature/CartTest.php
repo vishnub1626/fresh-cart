@@ -34,6 +34,7 @@ class CartTest extends TestCase
     /** @test */
     public function a_product_can_be_removed_from_cart()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $product = Product::factory()->create();
 
@@ -47,10 +48,7 @@ class CartTest extends TestCase
         $this->assertCount(1, CartProduct::all());
 
         $this->json('DELETE', "api/carts/products/{$product->id}")
-            ->assertOk()
-            ->assertJson([
-                'message' => 'Product removed from cart.'
-            ]);
+            ->assertOk();
 
         $this->assertCount(0, Cart::all());
         $this->assertCount(0, CartProduct::all());

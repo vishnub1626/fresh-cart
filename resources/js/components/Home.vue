@@ -1,7 +1,5 @@
 <template>
-    <div class="container mx-auto">
-        <product-list></product-list>
-    </div>
+    <product-list></product-list>
 </template>
 
 <script>

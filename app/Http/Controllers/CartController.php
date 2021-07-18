@@ -15,7 +15,13 @@ class CartController extends Controller
             ->with('cart')
             ->find(auth()->id());
 
-        return new CartResource($user->cart);
+        if ($user->cart) {
+            return new CartResource($user->fresh()->cart);
+        }
+
+        return response()->json([
+            'data' => []
+        ]);
     }
 
     public function store(Request $request)
@@ -48,8 +54,14 @@ class CartController extends Controller
 
         $user->cart->removeProduct($productId);
 
+        $user = $user->fresh();
+
+        if ($user->fresh()->cart) {
+            return new CartResource($user->fresh()->cart);
+        }
+
         return response()->json([
-            'message' => 'Product removed from cart.'
+            'data' => []
         ]);
     }
 }

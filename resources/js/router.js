@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import Cart from "./components/Cart";
+import Checkout from "./components/Checkout";
 
 import store from "./store";
 
@@ -26,6 +28,18 @@ const routes = [
         path: "/",
         name: "home",
         component: Home,
+        beforeEnter: ifAuthenticated,
+    },
+    {
+        path: "/cart",
+        name: "cart",
+        component: Cart,
+        beforeEnter: ifAuthenticated,
+    },
+    {
+        path: "/checkout",
+        name: "checkout",
+        component: Checkout,
         beforeEnter: ifAuthenticated,
     },
     {

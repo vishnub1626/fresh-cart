@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductController;
 
 Route::post('/users', [UserController::class, 'store']);
@@ -20,3 +21,5 @@ Route::post('/orders', [OrderController::class, 'store']);
 Route::get('/orders', [OrderController::class, 'index']);
 Route::get('/orders/{order}', [OrderController::class, 'find']);
 Route::put('/orders/{order}', [OrderController::class, 'update']);
+
+Route::get('/addresses', [AddressController::class, 'index']);

@@ -48,8 +48,14 @@ class CartController extends Controller
 
         $user->cart->removeProduct($productId);
 
+        $user = $user->fresh();
+
+        if ($user->fresh()->cart) {
+            return new CartResource($user->fresh()->cart);
+        }
+
         return response()->json([
-            'message' => 'Product removed from cart.'
+            'data' => []
         ]);
     }
 }

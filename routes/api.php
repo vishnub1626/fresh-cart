@@ -13,13 +13,15 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::get('/products', [ProductController::class, 'index']);
 
-Route::get('/carts', [CartController::class, 'find']);
-Route::post('/carts/products', [CartController::class, 'store']);
-Route::delete('/carts/products/{productId}', [CartController::class, 'destroy']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/carts', [CartController::class, 'find']);
+    Route::post('/carts/products', [CartController::class, 'store']);
+    Route::delete('/carts/products/{productId}', [CartController::class, 'destroy']);
 
-Route::post('/orders', [OrderController::class, 'store']);
-Route::get('/orders', [OrderController::class, 'index']);
-Route::get('/orders/{order}', [OrderController::class, 'find']);
-Route::put('/orders/{order}', [OrderController::class, 'update']);
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders/{order}', [OrderController::class, 'find']);
+    Route::put('/orders/{order}', [OrderController::class, 'update']);
 
-Route::get('/addresses', [AddressController::class, 'index']);
+    Route::get('/addresses', [AddressController::class, 'index']);
+});

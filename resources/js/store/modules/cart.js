@@ -9,6 +9,20 @@ const cart = {
         },
     },
     actions: {
+        getCart({ commit }, product) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .get("/api/carts")
+                    .then((res) => {
+                        commit("setCart", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        commit("setCart", {});
+                        reject(err);
+                    });
+            });
+        },
         addProduct({ commit }, product) {
             return new Promise((resolve, reject) => {
                 axios

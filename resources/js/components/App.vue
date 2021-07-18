@@ -1,6 +1,9 @@
 <template>
     <navigation v-if="showNavigation"></navigation>
-    <router-view></router-view>
+
+    <div class="container mx-auto">
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
@@ -8,12 +11,14 @@ import Navigation from "./Navigation";
 
 export default {
     components: {
-        'navigation' : Navigation
+        navigation: Navigation,
     },
     computed: {
-        showNavigation () {
-            return this.$route.name != 'login' && this.$route.name != 'register';
-        }
-    }
+        showNavigation() {
+            return (
+                this.$route.name != "login" && this.$route.name != "register"
+            );
+        },
+    },
 };
 </script>

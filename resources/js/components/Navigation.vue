@@ -15,10 +15,13 @@
 
 <script>
 export default {
+    created() {
+        this.$store.dispatch("cart/getCart");
+    },
     computed: {
         cartCount() {
-            return this.$store.getters['cart/productsCount'];
-        }
-    }
+            return this.$store.getters["cart/productsCount"];
+        },
+    },
 };
 </script>

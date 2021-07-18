@@ -9,15 +9,29 @@
             <p class="overflow-hidden overflow-ellipsis">{{ product.description }}</p>
 
             <div>
-                <button class="p-2 text-white bg-blue-700">Add to cart</button>
-                <button class="p-2 text-white bg-red-800">Remove from cart</button>
+                <button class="p-2 text-white bg-blue-700" @click.once="addToCart(product)" v-if="!isInCart(product)">Add to cart</button>
+                <button class="p-2 text-white bg-red-800" @click.once="removeFromCart(product)" v-if="isInCart(product)">Remove from cart</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
     props: ["product"],
+
+    computed: {
+        ...mapGetters({
+            isInCart: 'cart/isInCart'
+        })
+    },
+
+    methods: {
+        ...mapActions({
+            addToCart: 'cart/addProduct',
+            removeFromCart: 'cart/removeProduct',
+        })
+    }
 };
 </script>

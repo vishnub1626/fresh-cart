@@ -5,7 +5,7 @@
             <div>
                 <router-link to="/cart"
                     >Cart
-                    <span>(3)</span>
+                    <span>({{ cartCount }})</span>
                 </router-link>
                 <router-link to="/order" class="ml-2">Orders</router-link>
             </div>
@@ -14,5 +14,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+    computed: {
+        cartCount() {
+            return this.$store.getters['cart/productsCount'];
+        }
+    }
+};
 </script>

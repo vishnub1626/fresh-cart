@@ -15,7 +15,13 @@ class CartController extends Controller
             ->with('cart')
             ->find(auth()->id());
 
-        return new CartResource($user->cart);
+        if ($user->cart) {
+            return new CartResource($user->fresh()->cart);
+        }
+
+        return response()->json([
+            'data' => []
+        ]);
     }
 
     public function store(Request $request)

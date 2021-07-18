@@ -9,10 +9,22 @@ class AddressController extends Controller
 {
     public function index()
     {
-        return AddressResource::collection(
-            Address::query()
+        $addresses = Address::query()
             ->where('user_id', auth()->id())
-            ->get()
-        );
+            ->get();
+
+        return response()->json([
+            'data' => $addresses->map(function ($address) {
+                return [
+                    'id' => $address->id,
+                    'type' => $address->type,
+                    'address_one' => $address->address_one,
+                    'address_two' => $address->address_two,
+                    'city' => $address->city,
+                    'state' => $address->state,
+                    'pincode' => $address->pincode,
+                ];
+            })
+        ]);
     }
 }

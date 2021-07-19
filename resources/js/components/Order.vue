@@ -34,27 +34,29 @@ import { mapState } from "vuex";
 import Map from "./Map";
 
 export default {
-    data() {
-        return {
-            interval: null,
-        };
-    },
-
     components: {
         "google-map": Map,
     },
     created() {
         const orderId = this.$route.params.id;
 
+        if (this.$store.state.orders.interval) {
+            clearInterval(this.$store.state.orders.interval);
+            this.$store.commit('orders/newInterval', null);
+        }
+
         this.$store.dispatch("orders/getOrder", orderId);
-        this.interval = setInterval(() => {
+        const interval = setInterval(() => {
             this.$store.dispatch("orders/getOrder", orderId);
         }, 5000);
+
+        this.$store.commit('orders/newInterval', interval);
     },
 
     computed: {
         ...mapState({
             order: (state) => state.orders.order,
+            interval: (state) => state.orders.interval,
         }),
 
         orderStatus() {
@@ -80,6 +82,7 @@ export default {
         order(order) {
             if (order.status == "delivered" || order.status == "cancelled") {
                 clearInterval(this.interval);
+                this.$store.commit('orders/newInterval', null);
             }
         },
     },

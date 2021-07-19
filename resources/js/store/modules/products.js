@@ -6,7 +6,7 @@ const products = {
     }),
     mutations: {
         addProductsOnPageLoad(state, products) {
-            state.all = state.all.concat(products);
+            state.all = products;
         },
         addProducts(state, products) {
             state.all = state.all.concat(products);

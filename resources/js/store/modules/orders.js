@@ -4,8 +4,12 @@ const orders = {
         all: [],
         nextPage: null,
         order: {},
+        interval: null,
     }),
     mutations: {
+        newInterval(state, interval) {
+            state.interval = interval;
+        },
         setOrdersOnPageload(state, orders) {
             state.all = orders;
         },

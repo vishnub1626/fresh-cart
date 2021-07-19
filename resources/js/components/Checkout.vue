@@ -11,7 +11,13 @@
             </div>
         </div>
         <div
-            class="py-4 mt-4 text-2xl font-bold border-t border-b border-gray-400 "
+            class="
+                py-4
+                mt-4
+                text-2xl
+                font-bold
+                border-t border-b border-gray-400
+            "
         >
             Total: ₹{{ cart.total }}
         </div>
@@ -21,6 +27,7 @@
                 <RadioGroup v-model="type" class="flex">
                     <RadioGroupOption v-slot="{ checked }" value="delivery">
                         <div
+                            @click="hideNewAddressForm()"
                             :class="
                                 checked
                                     ? 'bg-green-400 text-white font-bold'
@@ -33,6 +40,7 @@
                     </RadioGroupOption>
                     <RadioGroupOption v-slot="{ checked }" value="pickup">
                         <div
+                            @click="hideNewAddressForm()"
                             :class="
                                 checked
                                     ? 'bg-green-400 text-white font-bold'
@@ -60,7 +68,12 @@
                             class="p-3"
                         >
                             <div
-                                class="p-5 border border-gray-300 rounded-md cursor-pointer "
+                                class="
+                                    p-5
+                                    border border-gray-300
+                                    rounded-md
+                                    cursor-pointer
+                                "
                                 :class="
                                     checked
                                         ? 'border-blue-600 text-gray-800 shadow-xl font-semibold'
@@ -85,7 +98,13 @@
                     </div>
                     <form
                         v-if="showAddressForm"
-                        class="p-2 mt-4 border border-gray-200 rounded-md shadow-lg"
+                        class="
+                            p-2
+                            mt-4
+                            border border-gray-200
+                            rounded-md
+                            shadow-lg
+                        "
                     >
                         <div class="p-2">
                             <label for="address-one">House</label>
@@ -137,7 +156,19 @@
             </div>
         </div>
 
-        <button type="submit" @click.prevent.once="placeOrder" class="float-right p-2 mt-4 text-lg font-bold text-white bg-blue-700">
+        <button
+            type="submit"
+            @click.prevent.once="placeOrder"
+            class="
+                float-right
+                p-2
+                mt-4
+                text-lg
+                font-bold
+                text-white
+                bg-blue-700
+            "
+        >
             Place Order
         </button>
     </div>

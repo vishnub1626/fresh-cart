@@ -1,6 +1,6 @@
 <template>
-    <div class="container py-4 mx-auto">
-        <div class="flex flex-wrap gap-4">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
             <product-card
                 v-for="product in products"
                 :product="product"
@@ -8,7 +8,7 @@
             ></product-card>
         </div>
 
-        <button v-if="nextPage" class="p-2" @click="fetchNextPage">Load more</button>
+        <button v-if="nextPage" class="w-full p-4 mt-5 text-center bg-blue-100 md:bg-white md:underline" @click="fetchNextPage">Load more</button>
     </div>
 </template>
 

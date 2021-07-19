@@ -1,7 +1,7 @@
 <template>
     <navigation v-if="showNavigation"></navigation>
 
-    <div class="container mx-auto">
+    <div class="container p-5 mx-auto">
         <router-view></router-view>
     </div>
 </template>

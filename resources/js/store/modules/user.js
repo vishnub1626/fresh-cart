@@ -29,8 +29,7 @@ const user = {
                     .then((res) => {
                         const token = res.data.data.token;
                         localStorage.setItem("token", token);
-                        axios.defaults.headers.common["Authorization"] =
-                            "Bearer ".token;
+                        window.axios.defaults.headers.common["Authorization"] = "Bearer " + token;
                         commit("setToken", token);
                         resolve(res);
                     })

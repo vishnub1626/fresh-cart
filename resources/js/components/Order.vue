@@ -1,20 +1,31 @@
 <template>
     <router-link to="" class="block cursor-pointer">
-        <google-map :location="order.location" v-if="showMap"></google-map>
-        <div class="ml-3">
-            <h2 class="text-2xl font-bold">
-                {{ order.status }}
+        <p class="w-full p-3 -ml-3 text-2xl font-bold">Order #{{ order.id }}</p>
+        <google-map
+            :location="order.location"
+            v-if="showMap"
+            class="mt-4 mb-4 border border-gray-300 shadow-xl"
+        ></google-map>
+        <div class="mt-4">
+            <h2 class="text-xl font-bold">
+                Status: <span class="text-sm">{{ orderStatus }}</span>
             </h2>
-            <p class="text-lg font-bold">₹{{ order.total }}</p>
         </div>
-        <div v-for="product in order.products" :key="product.id">
-            <div class="ml-3">
-                <h2 class="text-2xl font-bold">
-                    {{ product.name }}
-                </h2>
-                <p class="text-lg font-bold">₹{{ product.price }}</p>
+        <div
+            class="grid grid-cols-1 gap-4 p-3 mt-4 border border-gray-500 md:grid-cols-4"
+        >
+            <div v-for="product in order.products" :key="product.id">
+                <div class="flex gap-4 ml-3">
+                    <h2>
+                        {{ product.name }}
+                    </h2>
+                    <p>₹{{ product.price }}</p>
+                </div>
             </div>
         </div>
+        <p class="py-3 mt-4 text-lg font-bold">
+            Order total: ₹{{ order.total }}
+        </p>
     </router-link>
 </template>
 
@@ -23,28 +34,41 @@ import { mapState } from "vuex";
 import Map from "./Map";
 
 export default {
-    data() {
-        return {
-            interval: null,
-        };
-    },
-
     components: {
         "google-map": Map,
     },
     created() {
         const orderId = this.$route.params.id;
 
+        if (this.$store.state.orders.interval) {
+            clearInterval(this.$store.state.orders.interval);
+            this.$store.commit('orders/newInterval', null);
+        }
+
         this.$store.dispatch("orders/getOrder", orderId);
-        this.interval = setInterval(() => {
+        const interval = setInterval(() => {
             this.$store.dispatch("orders/getOrder", orderId);
         }, 5000);
+
+        this.$store.commit('orders/newInterval', interval);
     },
 
     computed: {
         ...mapState({
             order: (state) => state.orders.order,
+            interval: (state) => state.orders.interval,
         }),
+
+        orderStatus() {
+            const statusMap = {
+                in_transit: "Out for delivery",
+                pending: "Waiting for confirmation",
+                delivered: "Delivered",
+                cancelled: "Cancelled",
+            };
+
+            return statusMap[this.order.status];
+        },
 
         showMap() {
             return (
@@ -58,6 +82,7 @@ export default {
         order(order) {
             if (order.status == "delivered" || order.status == "cancelled") {
                 clearInterval(this.interval);
+                this.$store.commit('orders/newInterval', null);
             }
         },
     },

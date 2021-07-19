@@ -1,6 +1,6 @@
 <template>
     <div class="container py-4 mx-auto">
-        <div class="flex flex-wrap gap-4">
+        <div class="flex flex-col gap-4">
             <order-card
                 v-for="order in orders"
                 :order="order"
@@ -8,9 +8,7 @@
             ></order-card>
         </div>
 
-        <button v-if="nextPage" class="p-2" @click="fetchNextPage">
-            Load more
-        </button>
+        <button v-if="nextPage" class="w-full p-4 mt-5 text-center bg-blue-100 md:bg-white md:underline" @click="fetchNextPage">Older orders</button>
     </div>
 </template>
 

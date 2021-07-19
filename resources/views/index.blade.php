@@ -10,6 +10,7 @@
 <body>
     <div id="app"></div>
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5s6pZxmziRAY3B3cH2ZzKCGAO-eA5B4c"></script>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

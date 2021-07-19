@@ -1,20 +1,26 @@
 <template>
     <router-link to="" class="block cursor-pointer">
-        <google-map :location="order.location" v-if="showMap"></google-map>
-        <div class="ml-3">
+        <google-map
+            :location="order.location"
+            v-if="showMap"
+            class="border border-gray-300 shadow-xl"
+        ></google-map>
+        <div class="mt-8">
             <h2 class="text-2xl font-bold">
-                {{ order.status }}
+                Status: <span class="text-sm">{{ orderStatus }}</span>
             </h2>
-            <p class="text-lg font-bold">₹{{ order.total }}</p>
         </div>
-        <div v-for="product in order.products" :key="product.id">
-            <div class="ml-3">
-                <h2 class="text-2xl font-bold">
-                    {{ product.name }}
-                </h2>
-                <p class="text-lg font-bold">₹{{ product.price }}</p>
+        <div class="grid grid-cols-1 gap-4 p-3 mt-4 border border-gray-500 md:grid-cols-4">
+            <div v-for="product in order.products" :key="product.id">
+                <div class="flex gap-4 ml-3">
+                    <h2>
+                        {{ product.name }}
+                    </h2>
+                    <p>₹{{ product.price }}</p>
+                </div>
             </div>
         </div>
+            <p class="py-3 mt-4 text-lg font-bold">Order total: ₹{{ order.total }}</p>
     </router-link>
 </template>
 
@@ -45,6 +51,17 @@ export default {
         ...mapState({
             order: (state) => state.orders.order,
         }),
+
+        orderStatus() {
+            const statusMap ={
+                in_transit: "Out for delivery",
+                pending: "Waiting for confirmation",
+                delivered: "Delivered",
+                cancelled: "Cancelled",
+            };
+
+            return statusMap[this.order.status];
+        },
 
         showMap() {
             return (

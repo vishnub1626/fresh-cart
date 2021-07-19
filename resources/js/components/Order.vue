@@ -1,16 +1,19 @@
 <template>
     <router-link to="" class="block cursor-pointer">
+        <p class="w-full p-3 -ml-3 text-2xl font-bold">Order #{{ order.id }}</p>
         <google-map
             :location="order.location"
             v-if="showMap"
-            class="border border-gray-300 shadow-xl"
+            class="mt-4 mb-4 border border-gray-300 shadow-xl"
         ></google-map>
-        <div class="mt-8">
-            <h2 class="text-2xl font-bold">
+        <div class="mt-4">
+            <h2 class="text-xl font-bold">
                 Status: <span class="text-sm">{{ orderStatus }}</span>
             </h2>
         </div>
-        <div class="grid grid-cols-1 gap-4 p-3 mt-4 border border-gray-500 md:grid-cols-4">
+        <div
+            class="grid grid-cols-1 gap-4 p-3 mt-4 border border-gray-500 md:grid-cols-4"
+        >
             <div v-for="product in order.products" :key="product.id">
                 <div class="flex gap-4 ml-3">
                     <h2>
@@ -20,7 +23,9 @@
                 </div>
             </div>
         </div>
-            <p class="py-3 mt-4 text-lg font-bold">Order total: ₹{{ order.total }}</p>
+        <p class="py-3 mt-4 text-lg font-bold">
+            Order total: ₹{{ order.total }}
+        </p>
     </router-link>
 </template>
 
@@ -53,7 +58,7 @@ export default {
         }),
 
         orderStatus() {
-            const statusMap ={
+            const statusMap = {
                 in_transit: "Out for delivery",
                 pending: "Waiting for confirmation",
                 delivered: "Delivered",

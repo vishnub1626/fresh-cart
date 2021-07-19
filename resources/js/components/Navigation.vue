@@ -7,7 +7,7 @@
                     >Cart
                     <span>({{ cartCount }})</span>
                 </router-link>
-                <router-link to="/order" class="ml-2">Orders</router-link>
+                <router-link to="/orders" class="ml-2">Orders</router-link>
             </div>
         </div>
     </div>

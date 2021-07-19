@@ -4,6 +4,8 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
+import OrderList from "./components/OrderList";
+import Order from "./components/Order";
 
 import store from "./store";
 
@@ -40,6 +42,18 @@ const routes = [
         path: "/checkout",
         name: "checkout",
         component: Checkout,
+        beforeEnter: ifAuthenticated,
+    },
+    {
+        path: "/orders",
+        name: "orders",
+        component: OrderList,
+        beforeEnter: ifAuthenticated,
+    },
+    {
+        path: "/orders/:id",
+        name: "order",
+        component: Order,
         beforeEnter: ifAuthenticated,
     },
     {

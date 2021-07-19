@@ -33,10 +33,10 @@
                 ></validation-error>
             </div>
             <div class="flex justify-end gap-3">
-                <router-link to="/register" class="px-3 py-1 mt-4 text-sm text-gray-800 border">Register</router-link>
+                <router-link to="/register" class="px-3 py-2 mt-4 text-sm text-gray-800 border rounded-full">Register</router-link>
                 <button
                     type="submit"
-                    class="px-3 py-1 mt-4 text-sm text-white bg-blue-600 "
+                    class="px-3 py-2 mt-4 text-sm text-white bg-blue-600 rounded-full "
                     @click.prevent="submit"
                 >
                     Login

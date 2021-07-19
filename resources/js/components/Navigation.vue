@@ -1,7 +1,7 @@
 <template>
     <div class="shadow-lg">
         <div class="container flex justify-between p-5 py-6 mx-auto text-gray-800">
-            <router-link class="block text-xl font-semibold" to="/">FreshCart</router-link>
+            <router-link class="block text-xl font-semibold md:text-2xl md:font-bold" to="/">FreshCart</router-link>
             <div class="flex gap-3">
                 <router-link to="/orders" class="ml-2">Orders</router-link>
                 <router-link to="/cart"

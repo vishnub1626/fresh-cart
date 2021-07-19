@@ -23,16 +23,21 @@
                 </div>
             </div>
         </div>
-        <div class="w-full py-4 text-2xl text-right">
-            Total: ₹{{ cart.total }}
-        </div>
+        <div v-if="cart.products?.length > 0">
+            <div class="w-full py-4 text-2xl text-right">
+                Total: ₹{{ cart.total }}
+            </div>
 
-        <div class="w-full py-4 text-right">
-            <router-link
-                to="/checkout"
-                class="p-2 text-white bg-blue-600 border rounded-md"
-                >Checkout</router-link
-            >
+            <div class="w-full py-4 text-right">
+                <router-link
+                    to="/checkout"
+                    class="p-2 text-white bg-blue-600 border rounded-md"
+                    >Checkout</router-link
+                >
+            </div>
+        </div>
+        <div v-else>
+            There is nothing in your cart.
         </div>
     </div>
 </template>

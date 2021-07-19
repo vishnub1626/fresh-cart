@@ -22,7 +22,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("products/fetchProducts");
+        this.$store.dispatch("products/fetchProducts", true);
     },
 
     computed: {
